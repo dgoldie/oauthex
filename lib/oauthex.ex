@@ -5,12 +5,22 @@ defmodule Oauthex do
     params_decode(response)
   ], to: :oauth
 
-  use Application.Behaviour
+  use Behaviour
   require Lager
 
-  defrecord Consumer, key: nil, secret: nil, hash: :hmac_sha1
-  defrecord ReqInfo, token: nil, secret: nil
-  defrecord AccInfo, token: nil, secret: nil
+  defmodule Consumer do
+    defstruct key: nil, secret: nil, hash: :hmac_sha1
+  end
+
+  defmodule ReqInfo do
+    defstruct token: nil, secret: nil
+  end
+
+  defmodule AccInfo do
+    defstruct token: nil, secret: nil
+  end
+
+
 
   def start(_, _) do
   end
@@ -33,7 +43,7 @@ defmodule Oauthex do
   end
 
   def consumer_to_tuple(consumer) do
-    {consumer.key, consumer.secret, consumer.hash}
+    {String.to_char_list(consumer.key), String.to_char_list(consumer.secret), consumer.hash}
   end
 
   def post(url, params, consumer) do
@@ -49,7 +59,7 @@ defmodule Oauthex do
   end
 
   def get(url, consumer) do
-    get(url, [], consumer)
+    get(String.to_char_list(url), [], consumer)
   end
 
   def get(url, params, consumer) do
