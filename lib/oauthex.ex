@@ -21,20 +21,19 @@ defmodule Oauthex do
   end
 
 
-
   def start(_, _) do
   end
 
   def access_token(url, params, consumer, reqinfo) do
     result = get url, params, consumer, reqinfo
     {token, secret} = token_info result
-    AccInfo.new token: token, secret: secret
+    %AccInfo{token: token, secret: secret}
   end
 
   def request_token(url, params, consumer) do
     result = get url, params, consumer
     {token, secret} = token_info result
-    ReqInfo.new token: token, secret: secret
+    %ReqInfo{token: token, secret: secret}
   end
 
   def token_info(result) do
@@ -43,7 +42,7 @@ defmodule Oauthex do
   end
 
   def consumer_to_tuple(consumer) do
-    {String.to_char_list(consumer.key), String.to_char_list(consumer.secret), consumer.hash}
+    {to_char_list(consumer.key), to_char_list(consumer.secret), consumer.hash}
   end
 
   def post(url, params, consumer) do
@@ -59,7 +58,7 @@ defmodule Oauthex do
   end
 
   def get(url, consumer) do
-    get(String.to_char_list(url), [], consumer)
+    get(to_char_list(url), [], consumer)
   end
 
   def get(url, params, consumer) do
