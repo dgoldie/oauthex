@@ -20,8 +20,10 @@ defmodule Oauthex.Mixfile do
   # { :foobar, "0.1", git: "https://github.com/elixir-lang/foobar.git" }
   defp deps do
     [
-      {:exlager,"~> 0.2.0",[github: "khia/exlager"]},
-      {:oauth, "1.4.0", [github: "tim/erlang-oauth"]}
+      {:exlager, github: "khia/exlager"},
+      {:oauth, github: "tim/erlang-oauth"}
+      # {:exlager,"~> 0.2.0",[github: "khia/exlager"]},
+      # {:oauth, "1.4.0", [github: "tim/erlang-oauth"]}
     ]
   end
 end
