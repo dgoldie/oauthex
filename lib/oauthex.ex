@@ -85,7 +85,7 @@ defmodule Oauthex do
   defp assert_get(result) do
     case result do
       {:ok, {{_,200,_},_,_}=data} ->
-        Lager.debug 'Result: ~p', [data];
+        # Lager.debug 'Result: ~p', [data];
         data
       {:ok, ref} -> ref
       result ->

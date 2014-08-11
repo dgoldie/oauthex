@@ -1,4 +1,8 @@
-/ebin
+/_build
 /deps
 erl_crash.dump
-/log
+*.ez
+.DS_Store
+Gemfile
+Gemfile.lock
+Guardfile
