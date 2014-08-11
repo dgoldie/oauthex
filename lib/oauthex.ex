@@ -6,7 +6,7 @@ defmodule Oauthex do
   ], to: :oauth
 
   use Behaviour
-  require Lager
+  # require Lager
 
   defmodule Consumer do
     defstruct key: nil, secret: nil, hash: :hmac_sha1
@@ -27,7 +27,18 @@ defmodule Oauthex do
   def access_token(url, params, consumer, reqinfo) do
     result = get url, params, consumer, reqinfo
     {token, secret} = token_info result
-    %AccInfo{token: token, secret: secret}
+    header_params = decode_header result
+    accinfo = %AccInfo{token: token, secret: secret}
+    {accinfo, header_params}
+  end
+
+  def decode_header(response) do
+    {{_,200,_}, _, str} = response
+    str
+    |> to_string
+    |> String.split("&")
+    |> Enum.map( fn(x) -> String.split(x,"=") |> List.to_tuple end)
+
   end
 
   def request_token(url, params, consumer) do
@@ -78,7 +89,7 @@ defmodule Oauthex do
         data
       {:ok, ref} -> ref
       result ->
-        Lager.error 'oauth error ~p', [result]
+        # Lager.error 'oauth error ~p', [result]
         raise {:oauth_error, result}
     end
   end

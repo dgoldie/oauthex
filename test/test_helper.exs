@@ -1,2 +1,1 @@
-Oauthex.start
 ExUnit.start
